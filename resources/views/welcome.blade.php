@@ -10,7 +10,7 @@
   <header>
     <nav class="navbar">
       <ul>
-        <li><a class="active" href="#">Home</a></li>
+        <li><a class="menu" href="#"id='home'>Home</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Blog</a></li>
         <li><a href="#">Subscribe</a></li>
@@ -22,10 +22,10 @@
 
   <main class="hero">
     <div class="info">
-      <h1>Masud Rana Mamun</h1>
+      <h1 id= 'username'>Masud Rana Mamun</h1>
       <h2>Data Analyst</h2>
       <p>I'm a passionate and detail-oriented Data Analyst with a knack for turning ideas into clean, functional, and engaging digital experiences. I enjoy solving problems through design and code, always aiming to create meaningful impact.</p>
-      <a href="https://github.com/MasudBinMazid" class="btn">Download Resume</a>
+      <a href="https://github.com/MasudBinMazid" class="btn" id='change'>Download Resume</a>
     </div>
     <div class="avatar">
       <div class="circle">
@@ -34,9 +34,13 @@
     </div>
   </main>
 
+  <script src="{{asset('assets/js/script.js')}}"></script>
+
    <footer>
     <p>&copy; 2025 Masud. All rights reserved.</p>
   </footer>
 
 </body>
 </html>
+
+

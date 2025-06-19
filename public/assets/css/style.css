@@ -29,7 +29,7 @@ body {
   font-weight: bold;
 }
 
-.navbar a.active {
+.navbar a.menu {
   border: 1px solid #333;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
