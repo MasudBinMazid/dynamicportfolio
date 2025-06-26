@@ -35,7 +35,7 @@
     </ul>
   </section>
 
-  <!-- Fun Facts Section -->
+
   <section class="about-fun">
     <h3>Fun Facts</h3>
     <p>I love using data to tell stories. <br> I read data blogs every week. <br> I enjoy collaborating with teams remotely across the world.</p>
