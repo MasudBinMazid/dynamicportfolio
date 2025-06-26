@@ -11,8 +11,9 @@
     <a href="https://github.com/MasudBinMazid" class="btn">Download Resume</a>
   </div>
   <div class="avatar">
-    <div class="circle">
-      <div class="stick-figure">🙂</div>
+    <!-- <div class="circle"> -->
+      <!-- <div class="stick-figure">🙂</div> -->
+       <img class="img1" src="assets/image/Profile.jpg" alt="">
     </div>
   </div>
 </section>

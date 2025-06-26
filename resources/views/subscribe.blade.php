@@ -4,6 +4,6 @@
 <h2>Subscribe</h2>
 <form>
   <input type="email" placeholder="Enter your email" required>
-  <button type="submit">Subscribe</button>
+  <button class="c-btn" type="submit">Subscribe</button>
 </form>
 @endsection
