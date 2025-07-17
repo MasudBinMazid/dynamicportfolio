@@ -547,3 +547,29 @@ form {
   font-family: 'Courier New', Courier, monospace;
   font-weight: bolder;
 }
+
+
+
+
+
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+main {
+  padding-top: 70px; /* Adjust based on your navbar height */
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll caused by overflow */
+}
