@@ -10,11 +10,11 @@
     <div class="hero-content">
       <img src="{{ asset('assets/image/Profile1.jpg') }}" alt="Masud Bin Mazid" class="profile-img">
       <div>
-        <h1 class="hero-title">Hi, I’m <span class="highlight">Masud</span> <span class="wave">👋</span></h1>
-        <p class="hero-subtitle">Final year CSE student & Laravel developer passionate about building modern web experiences.</p>
+        <h1 class="hero-title">Hi, I’m <span class="highlight">Masud Rana Mamun</span> <span class="wave">👋</span></h1>
+        <p class="hero-subtitle">"Final-year CSE student passionate about data analysis and crafting web apps with Laravel PHP."</p>
         <div class="hero-actions">
           <a href="{{ route('projects') }}" class="btn btn-primary">View Projects</a>
-          <a href="{{ route('contact') }}" class="btn btn-secondary">Contact Me</a>
+          <a href="{{ route('contact') }}" class="btn btn-secondary">Hire Me</a>
         </div>
         <div class="hero-social">
           <a href="https://github.com/MasudBinMazid" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>

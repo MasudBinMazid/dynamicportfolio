@@ -11,7 +11,7 @@ body { font-family: system-ui, Arial, sans-serif; margin:0; background-color: #1
   gap: 14px; 
   padding: 16px 40px; 
   border-bottom: 1px solid rgba(0, 234, 255, 0.3); 
-  background-color: rgba(26, 26, 46, 0.95); 
+  background-color: rgba(21, 21, 49, 0.95); 
   backdrop-filter: blur(15px);
   box-shadow: 0 4px 20px rgba(0, 234, 255, 0.15);
   transition: all 0.3s ease;
@@ -19,9 +19,25 @@ body { font-family: system-ui, Arial, sans-serif; margin:0; background-color: #1
 
 .navbar-brand {
   font-size: 1.5rem;
-  font-weight: 700;
-  color: #00eaff;
-  text-decoration: none;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.navbar-brand a {
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.navbar-brand a:hover {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
+.navbar-brand a:visited {
+  color: #ffffff !important;
+  text-decoration: none !important;
 }
 
 .navbar-nav {
@@ -54,6 +70,9 @@ body { font-family: system-ui, Arial, sans-serif; margin:0; background-color: #1
   background: rgba(0, 234, 255, 0.2);
 }
 .btn-cv { 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px 20px; 
   border: 2px solid #00eaff; 
   border-radius: 25px; 
@@ -61,6 +80,8 @@ body { font-family: system-ui, Arial, sans-serif; margin:0; background-color: #1
   color: #1a1a2e; 
   font-weight: 600; 
   text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 234, 255, 0.3);
 }
@@ -110,6 +131,15 @@ body { font-family: system-ui, Arial, sans-serif; margin:0; background-color: #1
   
   .navbar-brand {
     font-size: 1.3rem;
+    font-weight: 900;
+    color: #ffffff;
+  }
+  
+  .navbar-brand a {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 1.3rem;
+    font-weight: 900;
   }
   
   .navbar-nav {
@@ -124,8 +154,13 @@ body { font-family: system-ui, Arial, sans-serif; margin:0; background-color: #1
   }
   
   .btn-cv {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 8px 16px;
     font-size: 0.85rem;
+    text-align: center;
+    min-width: 120px;
   }
 }
 
@@ -142,7 +177,16 @@ body { font-family: system-ui, Arial, sans-serif; margin:0; background-color: #1
   
   .navbar-brand {
     font-size: 1.2rem;
+    font-weight: 900;
+    color: #ffffff;
     margin-bottom: 5px;
+  }
+  
+  .navbar-brand a {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-size: 1.2rem;
+    font-weight: 900;
   }
   
   .navbar-nav {
@@ -158,9 +202,14 @@ body { font-family: system-ui, Arial, sans-serif; margin:0; background-color: #1
   }
   
   .btn-cv {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 7px 14px;
     font-size: 0.8rem;
     margin-top: 5px;
+    text-align: center;
+    min-width: 110px;
   }
 }
 
