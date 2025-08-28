@@ -17,7 +17,7 @@ body {
 	width: 100%;
 	position: relative;
 	margin: 0;
-	background: #ffffff;
+	background: #1a1a2e;
 	border-radius: 0;
 	box-shadow: none;
 	overflow: hidden;
@@ -31,7 +31,7 @@ body {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: radial-gradient(circle at 30% 40%, rgba(0, 234, 255, 0.05) 0%, transparent 70%);
+	background: radial-gradient(circle at 30% 40%, rgba(0, 234, 255, 0.1) 0%, transparent 70%);
 	pointer-events: none;
 }
 .hero-content {
@@ -64,8 +64,8 @@ body {
 	font-weight: 800;
 	margin-bottom: 24px;
 	letter-spacing: -2px;
-	color: #1a1a2e;
-	text-shadow: none;
+	color: #ffffff;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
@@ -102,11 +102,11 @@ body {
 }
 .hero-subtitle {
 	font-size: 1.6rem;
-	color: rgba(26, 26, 46, 0.8);
+	color: rgba(255, 255, 255, 0.9);
 	margin-bottom: 36px;
 	line-height: 1.6;
 	font-weight: 300;
-	text-shadow: none;
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 	max-width: 600px;
 }
 .hero-actions {
@@ -267,9 +267,9 @@ body {
 	transition: all 0.3s ease;
 	padding: 12px;
 	border-radius: 50%;
-	background: rgba(0, 234, 255, 0.1);
+	background: rgba(0, 234, 255, 0.2);
 	backdrop-filter: blur(10px);
-	border: 2px solid rgba(0, 234, 255, 0.3);
+	border: 2px solid rgba(0, 234, 255, 0.5);
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -278,9 +278,9 @@ body {
 }
 .hero-social a:hover {
 	color: #ffffff;
-	background: rgba(0, 234, 255, 0.8);
+	background: rgba(0, 234, 255, 0.4);
 	transform: translateY(-3px);
-	box-shadow: 0 4px 16px rgba(0, 234, 255, 0.4);
+	box-shadow: 0 4px 16px rgba(0, 234, 255, 0.6);
 	border-color: rgba(0, 234, 255, 0.8);
 }
 

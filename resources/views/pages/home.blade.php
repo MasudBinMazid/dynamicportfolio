@@ -8,7 +8,7 @@
 @section('content')
   <section class="hero">
     <div class="hero-content">
-      <img src="{{ asset('assets/image/Profile3.jpg') }}" alt="Masud Bin Mazid" class="profile-img">
+      <img src="{{ asset('assets/image/Profile1.jpg') }}" alt="Masud Bin Mazid" class="profile-img">
       <div>
         <h1 class="hero-title">Hi, I’m <span class="highlight">Masud</span> <span class="wave">👋</span></h1>
         <p class="hero-subtitle">Final year CSE student & Laravel developer passionate about building modern web experiences.</p>
