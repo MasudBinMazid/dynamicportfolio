@@ -1,3 +1,37 @@
+/* Image and Text Landing Effects */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 h1 { font-size:2rem; margin-bottom:8px; }
 
 /* Prevent horizontal scrolling */
@@ -54,6 +88,8 @@ body {
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 	flex-shrink: 0;
 	margin-left: 20px;
+	animation: slideInLeft 1.2s ease-out;
+}
 }
 .profile-img:hover {
 	transform: scale(1.08);
@@ -66,8 +102,8 @@ body {
 	letter-spacing: -2px;
 	color: #ffffff;
 	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+	animation: slideInRight 1s ease-out 0.5s both;
 }
-	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 .highlight {
 	color: #00eaff;
@@ -108,6 +144,7 @@ body {
 	font-weight: 300;
 	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 	max-width: 600px;
+	animation: fadeInUp 1s ease-out 1s both;
 }
 .hero-actions {
 	display: flex;
