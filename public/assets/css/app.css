@@ -1,0 +1,8 @@
+body { font-family: system-ui, Arial, sans-serif; margin:0; }
+.navbar { display:flex; gap:14px; padding:14px 20px; border-bottom:1px solid #eee; }
+.navbar a { text-decoration:none; }
+.btn-cv { margin-left:auto; padding:8px 12px; border:1px solid #333; border-radius:8px; }
+.container { max-width:960px; margin:24px auto; padding:0 16px; }
+.footer { text-align:center; padding:24px; color:#666; border-top:1px solid #eee; margin-top:40px; }
+.alert { padding:10px 12px; background:#ffe9a8; border:1px solid #e0c773; border-radius:8px; margin:12px 0; }
+.alert.success { background:#d7ffd9; border-color:#9ed7a0; }

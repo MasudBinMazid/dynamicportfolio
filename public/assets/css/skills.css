@@ -1,0 +1,2 @@
+.skills { display:flex; gap:10px; flex-wrap:wrap; }
+.skills li { background:#f3f4f6; padding:6px 10px; border-radius:14px; }

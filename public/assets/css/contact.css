@@ -1,0 +1,4 @@
+.contact-layout { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.contact-layout .static ul { list-style:none; padding:0; }
+.contact-layout .map iframe { width:100%; height:250px; border:0; }
+@media (max-width:800px) { .contact-layout { grid-template-columns:1fr; } }
