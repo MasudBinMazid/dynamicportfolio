@@ -9,11 +9,16 @@
 </head>
 <body>
   <nav class="navbar">
-    <a href="{{ route('home') }}">Home</a>
-    <a href="{{ route('about') }}">About</a>
-    <a href="{{ route('skills') }}">Skills</a>
-    <a href="{{ route('projects') }}">Projects</a>
-    <a href="{{ route('contact') }}">Contact</a>
+    <div class="navbar-brand">
+      <a href="{{ route('home') }}">Masud</a>
+    </div>
+    <div class="navbar-nav">
+      <a href="{{ route('home') }}">Home</a>
+      <a href="{{ route('about') }}">About</a>
+      <a href="{{ route('skills') }}">Skills</a>
+      <a href="{{ route('projects') }}">Projects</a>
+      <a href="{{ route('contact') }}">Contact</a>
+    </div>
     @if(!empty($contactInfo?->cv_url))
       <a class="btn btn-cv" href="{{ $contactInfo->cv_url }}" target="_blank" rel="noopener">Download CV</a>
     @endif
@@ -25,6 +30,31 @@
   </main>
 
   <footer class="footer">© {{ date('Y') }} Masud</footer>
+
+  <script>
+    // Add scrolled class to navbar when scrolling
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Add active class to current page nav link
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll('.navbar-nav a');
+      
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath || 
+           (currentPath === '/' && link.getAttribute('href').includes('home'))) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
 
   @stack('scripts')
 </body>
