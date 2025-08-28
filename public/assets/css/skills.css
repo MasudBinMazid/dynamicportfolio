@@ -15,7 +15,7 @@
 .skills-container {
   min-height: 100vh;
   background: var(--gradient-primary);
-  padding-top: 120px;
+  padding-top: 90px;
   padding-bottom: 80px;
   overflow-x: hidden;
 }
@@ -314,7 +314,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .skills-container {
-    padding-top: 100px;
+    padding-top: 80px;
     padding-bottom: 60px;
   }
 
@@ -388,7 +388,7 @@
 
 @media (max-width: 480px) {
   .skills-container {
-    padding-top: 90px;
+    padding-top: 75px;
   }
 
   .skill-category {
