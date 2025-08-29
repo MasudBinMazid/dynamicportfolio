@@ -69,4 +69,6 @@ Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function
     Route::get('/chat/{sessionId}', [AdminChatController::class, 'show'])->name('chat.show');
     Route::post('/chat/{sessionId}/reply', [AdminChatController::class, 'sendReply'])->name('chat.reply');
     Route::get('/chat/{sessionId}/new-messages', [AdminChatController::class, 'getNewMessages'])->name('chat.new_messages');
+    Route::delete('/chat/message/{message}', [AdminChatController::class, 'deleteMessage'])->name('chat.delete_message');
+    Route::delete('/chat/session/{sessionId}', [AdminChatController::class, 'deleteSession'])->name('chat.delete_session');
 });

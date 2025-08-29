@@ -89,4 +89,21 @@ class AdminChatController extends Controller
             'messages' => $messages
         ]);
     }
+
+    public function deleteMessage(ChatMessage $message)
+    {
+        $sessionId = $message->session_id;
+        $message->delete();
+        
+        return redirect()->route('admin.chat.show', $sessionId)
+            ->with('success', 'Message deleted successfully.');
+    }
+
+    public function deleteSession($sessionId)
+    {
+        ChatMessage::bySession($sessionId)->delete();
+        
+        return redirect()->route('admin.chat.index')
+            ->with('success', 'Chat session deleted successfully.');
+    }
 }

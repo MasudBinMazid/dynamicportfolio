@@ -20,7 +20,15 @@
       <span>Portfolio Admin</span>
     </div>
     
-    <nav class="header-nav">
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+    
+    <nav class="header-nav" id="headerNav">
       <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="3" width="7" height="7"></rect>
@@ -58,19 +66,19 @@
         </svg>
         Live Chat
       </a>
+      
+      <form method="POST" action="{{ route('admin.logout') }}" class="logout-form">
+        @csrf
+        <button type="submit" class="logout-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Logout
+        </button>
+      </form>
     </nav>
-    
-    <form method="POST" action="{{ route('admin.logout') }}" class="logout-form">
-      @csrf
-      <button type="submit" class="logout-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-          <polyline points="16 17 21 12 16 7"></polyline>
-          <line x1="21" y1="12" x2="9" y2="12"></line>
-        </svg>
-        Logout
-      </button>
-    </form>
   </header>
 
   <main class="admin-container">
@@ -89,6 +97,30 @@
   
   @stack('scripts')
   
+  <script>
+    function toggleMobileMenu() {
+      const headerNav = document.getElementById('headerNav');
+      headerNav.classList.toggle('mobile-open');
+    }
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const headerNav = document.getElementById('headerNav');
+      const mobileToggle = document.querySelector('.mobile-menu-toggle');
+      
+      if (!headerNav.contains(event.target) && !mobileToggle.contains(event.target)) {
+        headerNav.classList.remove('mobile-open');
+      }
+    });
+    
+    // Close mobile menu when window is resized to desktop
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 768) {
+        document.getElementById('headerNav').classList.remove('mobile-open');
+      }
+    });
+  </script>
+  
   <style>
     .header-brand {
       display: flex;
@@ -97,6 +129,21 @@
       font-weight: 600;
       font-size: 18px;
       color: var(--primary);
+    }
+    
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+    
+    .mobile-menu-toggle:hover {
+      background: var(--secondary);
     }
     
     .header-nav {
@@ -115,6 +162,13 @@
       border-radius: 8px;
       transition: var(--transition);
       position: relative;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+    }
+    
+    .header-nav a:hover {
+      background: var(--secondary);
     }
     
     .header-nav a.active {
@@ -168,18 +222,59 @@
     
     @media (max-width: 768px) {
       .admin-header {
-        flex-direction: column;
-        gap: 16px;
+        flex-wrap: wrap;
+        position: relative;
       }
       
-      .header-nav {
-        justify-content: flex-start;
-        overflow-x: auto;
-        width: 100%;
+      .mobile-menu-toggle {
+        display: block;
+        order: 2;
       }
       
       .header-brand {
-        align-self: flex-start;
+        order: 1;
+        flex: 1;
+      }
+      
+      .header-nav {
+        order: 3;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--border);
+        display: none;
+      }
+      
+      .header-nav.mobile-open {
+        display: flex;
+      }
+      
+      .header-nav a, .header-nav .logout-btn {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 12px 16px;
+      }
+      
+      .header-nav .logout-form {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .admin-header {
+        padding: 12px 16px;
+      }
+      
+      .header-brand span {
+        font-size: 16px;
+      }
+      
+      .admin-container {
+        padding: 0 16px;
+        margin: 16px auto;
       }
     }
   </style>
