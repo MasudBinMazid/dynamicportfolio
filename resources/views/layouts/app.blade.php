@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>@yield('title','Masud Portfolio')</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
@@ -12,6 +13,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
   
   <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/css/chat.css') }}" rel="stylesheet">
   @stack('styles')
 </head>
 <body>
@@ -37,6 +39,9 @@
   </main>
 
   <footer class="footer">© {{ date('Y') }} Masud</footer>
+
+  <!-- Chat Widget -->
+  @include('components.chat-widget')
 
   <script>
     // Add scrolled class to navbar when scrolling

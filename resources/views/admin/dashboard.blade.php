@@ -53,6 +53,24 @@
         {{ $stats['messages'] > 0 ? 'People are reaching out!' : 'No new messages' }}
       </div>
     </div>
+
+    <div class="stat-card chat">
+      <div class="stat-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"></path>
+          <path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"></path>
+        </svg>
+      </div>
+      <div class="stat-number">{{ $stats['chat_sessions'] }}</div>
+      <p class="stat-label">Chat Conversations</p>
+      <div class="stat-change {{ $stats['unread_chats'] > 0 ? 'positive' : '' }}">
+        @if($stats['unread_chats'] > 0)
+          {{ $stats['unread_chats'] }} unread messages!
+        @else
+          All caught up!
+        @endif
+      </div>
+    </div>
   </div>
 
   <div class="quick-actions">
@@ -90,6 +108,14 @@
           <polyline points="22,6 12,13 2,6"></polyline>
         </svg>
         View Messages
+      </a>
+      
+      <a href="{{ route('admin.chat.index') }}" class="action-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z"></path>
+          <path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"></path>
+        </svg>
+        Manage Live Chat
       </a>
     </div>
   </div>
