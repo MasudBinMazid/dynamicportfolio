@@ -17,7 +17,7 @@
 <body>
   <nav class="navbar">
     <div class="navbar-brand">
-      <a href="{{ route('home') }}">Masud</a>
+      <a href="{{ route('home') }}">Portfolio-Masud</a>
     </div>
     <div class="navbar-nav">
       <a href="{{ route('home') }}">Home</a>
