@@ -11,7 +11,10 @@
             <p>Hi! How can I help you today?</p>
             <div class="online-indicator">
                 <span class="online-dot"></span>
-                <span>Online</span>
+                <span id="chat-status-text">Online</span>
+                @if(config('chat.ai_enabled'))
+                    <span class="ai-badge">🤖</span>
+                @endif
             </div>
             <button class="chat-close" onclick="toggleChat()" aria-label="Close chat">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">

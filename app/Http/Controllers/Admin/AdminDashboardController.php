@@ -17,6 +17,8 @@ class AdminDashboardController extends Controller
             'featured' => Project::where('featured', true)->count(),
             'chat_sessions' => ChatMessage::distinct('session_id')->count('session_id'),
             'unread_chats' => ChatMessage::where('sender_type', 'visitor')->where('is_read', false)->count(),
+            'ai_enabled' => config('chat.ai_enabled'),
+            'ai_configured' => config('services.openai.api_key') ? true : false,
         ];
         return view('admin.dashboard', compact('stats'));
     }

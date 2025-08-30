@@ -34,4 +34,32 @@ return [
         'min' => 2, // minimum seconds before auto-response
         'max' => 5, // maximum seconds before auto-response
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | AI Integration Settings
+    |--------------------------------------------------------------------------
+    | Configure AI-powered responses for the chat system
+    */
+    
+    'ai_enabled' => env('CHAT_AI_ENABLED', false),
+    
+    'ai_model' => env('CHAT_AI_MODEL', 'gpt-3.5-turbo'),
+    
+    'ai_max_tokens' => env('CHAT_AI_MAX_TOKENS', 150),
+    
+    'ai_fallback_to_keywords' => env('CHAT_AI_FALLBACK', true),
+    
+    'ai_response_delay' => [
+        'min' => 3, // minimum seconds before AI response
+        'max' => 6, // maximum seconds before AI response
+    ],
+
+    'ai_system_context' => [
+        'name' => 'Masud Rana Mamun',
+        'role' => 'Full-Stack Developer & Data Analyst',
+        'education' => 'Final-year Computer Science Engineering student',
+        'skills' => ['Laravel PHP', 'React', 'Vue.js', 'Python', 'Data Analysis', 'Machine Learning'],
+        'availability' => 'Available for freelance projects and collaboration'
+    ],
 ];

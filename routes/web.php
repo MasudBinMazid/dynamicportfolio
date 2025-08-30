@@ -41,6 +41,12 @@ Route::get('/debug/chat', function() {
         // Test config
         echo "✅ Auto-response enabled: " . (config('chat.auto_response_enabled') ? 'Yes' : 'No') . "<br>";
         echo "✅ Email notifications enabled: " . (config('chat.email_notifications') ? 'Yes' : 'No') . "<br>";
+        echo "🤖 AI integration enabled: " . (config('chat.ai_enabled') ? 'Yes' : 'No') . "<br>";
+        
+        if (config('chat.ai_enabled')) {
+            echo "🤖 AI Model: " . config('chat.ai_model') . "<br>";
+            echo "🔑 OpenAI API Key configured: " . (config('services.openai.api_key') ? 'Yes' : 'No') . "<br>";
+        }
         
         return "Chat system debug complete!";
     } catch (\Exception $e) {

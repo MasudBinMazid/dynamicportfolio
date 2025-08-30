@@ -120,6 +120,61 @@
     </div>
   </div>
 
+  <!-- AI Status Section -->
+  <div class="ai-status-section">
+    <div class="ai-status-card">
+      <div class="ai-header">
+        <div class="ai-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="22"></line>
+          </svg>
+        </div>
+        <div class="ai-info">
+          <h3>AI Chat Assistant</h3>
+          <p>Intelligent responses for better user engagement</p>
+        </div>
+        <div class="ai-status-badge">
+          @if($stats['ai_enabled'] && $stats['ai_configured'])
+            <span class="status-active">🤖 Active</span>
+          @elseif($stats['ai_enabled'] && !$stats['ai_configured'])
+            <span class="status-warning">⚠️ API Key Required</span>
+          @else
+            <span class="status-inactive">😴 Disabled</span>
+          @endif
+        </div>
+      </div>
+      
+      <div class="ai-details">
+        <div class="detail-item">
+          <span class="detail-label">Status:</span>
+          <span class="detail-value">{{ $stats['ai_enabled'] ? 'Enabled' : 'Disabled' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">API Key:</span>
+          <span class="detail-value">{{ $stats['ai_configured'] ? 'Configured' : 'Not Set' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Model:</span>
+          <span class="detail-value">{{ config('chat.ai_model', 'gpt-3.5-turbo') }}</span>
+        </div>
+      </div>
+      
+      @if(!$stats['ai_enabled'] || !$stats['ai_configured'])
+        <div class="ai-setup-info">
+          <h4>Setup Instructions:</h4>
+          <ol>
+            <li>Get your OpenAI API key from <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a></li>
+            <li>Add <code>OPENAI_API_KEY=your-key-here</code> to your .env file</li>
+            <li>Set <code>CHAT_AI_ENABLED=true</code> in your .env file</li>
+            <li>Restart your application</li>
+          </ol>
+        </div>
+      @endif
+    </div>
+  </div>
+
   @if($stats['messages'] > 0)
     <div class="recent-activity">
       <div class="activity-card">
@@ -219,6 +274,166 @@
     }
     
     .actions-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* AI Status Section Styles */
+  .ai-status-section {
+    margin-bottom: 32px;
+  }
+
+  .ai-status-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--info);
+  }
+
+  .ai-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .ai-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--info);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-info h3 {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    color: var(--text);
+  }
+
+  .ai-info p {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 14px;
+  }
+
+  .ai-status-badge {
+    margin-left: auto;
+  }
+
+  .status-active {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .status-warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .status-inactive {
+    background: rgba(107, 114, 128, 0.1);
+    color: var(--text-light);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ai-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .detail-label {
+    font-weight: 500;
+    color: var(--text-light);
+    font-size: 14px;
+  }
+
+  .detail-value {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .ai-setup-info {
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+
+  .ai-setup-info h4 {
+    margin: 0 0 12px 0;
+    color: var(--info);
+    font-size: 14px;
+  }
+
+  .ai-setup-info ol {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.5;
+  }
+
+  .ai-setup-info li {
+    margin-bottom: 8px;
+  }
+
+  .ai-setup-info code {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+  }
+
+  .ai-setup-info a {
+    color: var(--info);
+    text-decoration: none;
+  }
+
+  .ai-setup-info a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .ai-header {
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+    
+    .ai-status-badge {
+      margin-left: 0;
+      align-self: flex-start;
+    }
+    
+    .ai-details {
       grid-template-columns: 1fr;
     }
   }

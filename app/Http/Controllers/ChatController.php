@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
+use App\Services\ChatAIService;
 
 class ChatController extends Controller
 {
@@ -38,8 +39,18 @@ class ChatController extends Controller
                 }
             }
 
-            // Send auto-response (if enabled) - simplified without delays for now
-            if (config('chat.auto_response_enabled')) {
+            // Send auto-response or AI response (if enabled)
+            if (config('chat.ai_enabled')) {
+                try {
+                    $this->sendAIResponse($request->session_id, $request->message);
+                } catch (\Exception $e) {
+                    Log::error('AI response failed: ' . $e->getMessage());
+                    // Fallback to traditional auto-response
+                    if (config('chat.auto_response_enabled')) {
+                        $this->sendAutoResponse($request->session_id, $request->message);
+                    }
+                }
+            } elseif (config('chat.auto_response_enabled')) {
                 try {
                     $this->sendAutoResponse($request->session_id, $request->message);
                 } catch (\Exception $e) {
@@ -122,6 +133,37 @@ class ChatController extends Controller
                 'success' => false,
                 'error' => 'Failed to send reply.'
             ], 500);
+        }
+    }
+
+    private function sendAIResponse($sessionId, $message)
+    {
+        try {
+            if (!config('chat.ai_enabled')) {
+                return;
+            }
+
+            $aiService = new ChatAIService();
+            
+            // Generate AI response
+            $aiResponse = $aiService->generateResponse($message, $sessionId);
+            
+            if (!empty($aiResponse)) {
+                // In a real application, you might want to queue this with a delay
+                // For now, we'll add the response immediately
+                ChatMessage::create([
+                    'session_id' => $sessionId,
+                    'message' => $aiResponse,
+                    'sender_type' => 'admin'
+                ]);
+            }
+        } catch (\Exception $e) {
+            Log::error('AI response error: ' . $e->getMessage());
+            
+            // Fallback to keyword-based responses if AI fails and fallback is enabled
+            if (config('chat.ai_fallback_to_keywords')) {
+                $this->sendAutoResponse($sessionId, $message);
+            }
         }
     }
 
