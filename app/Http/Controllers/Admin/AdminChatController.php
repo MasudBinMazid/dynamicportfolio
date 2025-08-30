@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ChatMessage;
+use App\Services\TelegramService;
 
 class AdminChatController extends Controller
 {
@@ -105,5 +106,84 @@ class AdminChatController extends Controller
         
         return redirect()->route('admin.chat.index')
             ->with('success', 'Chat session deleted successfully.');
+    }
+
+    public function telegramSetup()
+    {
+        $currentConfig = [
+            'bot_token' => config('telegram.bot_token'),
+            'chat_id' => config('telegram.chat_id'),
+            'notifications_enabled' => config('telegram.notify_new_messages'),
+            'webhook_enabled' => config('telegram.webhook_enabled'),
+        ];
+
+        return view('admin.telegram.setup', compact('currentConfig'));
+    }
+
+    public function getChatId(Request $request)
+    {
+        $request->validate([
+            'bot_token' => 'required|string'
+        ]);
+
+        $botToken = $request->bot_token;
+        
+        // Temporarily set the bot token in config
+        config(['telegram.bot_token' => $botToken]);
+        
+        try {
+            $telegramService = new TelegramService();
+            $result = $telegramService->getUpdates();
+            
+            if (!$result['success']) {
+                return response()->json([
+                    'success' => false,
+                    'error' => $result['error']
+                ]);
+            }
+
+            $updates = $result['updates'];
+            
+            if (empty($updates)) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'No messages found. Please send a message to your bot first.',
+                    'instructions' => [
+                        'Go to Telegram and find your bot',
+                        'Send any message like "Hello"',
+                        'Come back and try again'
+                    ]
+                ]);
+            }
+            
+            $chatIds = [];
+            foreach ($updates as $update) {
+                if (isset($update['message'])) {
+                    $chat = $update['message']['chat'];
+                    $chatId = $chat['id'];
+                    $chatTitle = trim(($chat['first_name'] ?? '') . ' ' . ($chat['last_name'] ?? ''));
+                    $username = $chat['username'] ?? null;
+                    
+                    if (!in_array($chatId, array_column($chatIds, 'id'))) {
+                        $chatIds[] = [
+                            'id' => $chatId,
+                            'name' => $chatTitle ?: 'No Name',
+                            'username' => $username
+                        ];
+                    }
+                }
+            }
+            
+            return response()->json([
+                'success' => true,
+                'chat_ids' => $chatIds
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 }

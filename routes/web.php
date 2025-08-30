@@ -54,6 +54,52 @@ Route::get('/debug/chat', function() {
     }
 })->name('debug.chat');
 
+// Debug route for testing Telegram
+Route::get('/debug/telegram', function() {
+    try {
+        $telegramService = new \App\Services\TelegramService();
+        
+        echo "<h2>🤖 Telegram Debug</h2>";
+        echo "Bot Token: " . (config('telegram.bot_token') ? '✅ Configured' : '❌ Not Set') . "<br>";
+        echo "Chat ID: " . (config('telegram.chat_id') ? '✅ ' . config('telegram.chat_id') : '❌ Not Set') . "<br><br>";
+        
+        // Test bot connection
+        $testResult = $telegramService->testBot();
+        if ($testResult['success']) {
+            echo "✅ Bot connection successful<br>";
+            if (isset($testResult['bot']['first_name'])) {
+                echo "Bot Name: " . $testResult['bot']['first_name'] . "<br>";
+            }
+        } else {
+            echo "❌ Bot connection failed: " . $testResult['error'] . "<br>";
+        }
+        
+        // Get recent updates
+        echo "<br><h3>Recent Updates:</h3>";
+        $updatesResult = $telegramService->getUpdates();
+        if ($updatesResult['success']) {
+            $updates = $updatesResult['updates'];
+            echo "Found " . count($updates) . " updates<br>";
+            
+            foreach (array_slice($updates, -3) as $update) {
+                echo "<pre>" . json_encode($update, JSON_PRETTY_PRINT) . "</pre><hr>";
+            }
+        } else {
+            echo "❌ Failed to get updates: " . $updatesResult['error'] . "<br>";
+        }
+        
+        // Check cache
+        echo "<br><h3>Cache Status:</h3>";
+        $cacheKey = 'telegram_reply_session_' . config('telegram.chat_id');
+        $cachedSession = cache()->get($cacheKey);
+        echo "Active reply session: " . ($cachedSession ? $cachedSession : 'None') . "<br>";
+        
+        return "";
+    } catch (\Exception $e) {
+        return "❌ Error: " . $e->getMessage();
+    }
+})->name('debug.telegram');
+
 // Admin auth (login at /admin)
 Route::get('/admin', [AdminAuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.post');
@@ -77,4 +123,8 @@ Route::middleware(['is_admin'])->prefix('admin')->name('admin.')->group(function
     Route::get('/chat/{sessionId}/new-messages', [AdminChatController::class, 'getNewMessages'])->name('chat.new_messages');
     Route::delete('/chat/message/{message}', [AdminChatController::class, 'deleteMessage'])->name('chat.delete_message');
     Route::delete('/chat/session/{sessionId}', [AdminChatController::class, 'deleteSession'])->name('chat.delete_session');
+    
+    // Telegram setup routes
+    Route::get('/telegram/setup', [AdminChatController::class, 'telegramSetup'])->name('telegram.setup');
+    Route::post('/telegram/get-chat-id', [AdminChatController::class, 'getChatId'])->name('telegram.get_chat_id');
 });

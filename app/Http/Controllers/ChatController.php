@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use App\Services\ChatAIService;
+use App\Services\TelegramService;
 
 class ChatController extends Controller
 {
@@ -36,6 +37,15 @@ class ChatController extends Controller
                     $this->sendEmailNotification($chatMessage);
                 } catch (\Exception $e) {
                     Log::error('Email notification failed: ' . $e->getMessage());
+                }
+            }
+
+            // Send Telegram notification (non-blocking)
+            if (config('telegram.notify_new_messages')) {
+                try {
+                    $this->sendTelegramNotification($chatMessage);
+                } catch (\Exception $e) {
+                    Log::error('Telegram notification failed: ' . $e->getMessage());
                 }
             }
 
@@ -227,6 +237,21 @@ class ChatController extends Controller
         } catch (\Exception $e) {
             Log::error('Email notification error: ' . $e->getMessage());
             // Don't fail the chat message if email fails
+        }
+    }
+
+    private function sendTelegramNotification($chatMessage)
+    {
+        try {
+            if (!config('telegram.notify_new_messages')) {
+                return;
+            }
+
+            $telegramService = new TelegramService();
+            $telegramService->sendNewMessageNotification($chatMessage);
+        } catch (\Exception $e) {
+            Log::error('Telegram notification error: ' . $e->getMessage());
+            // Don't fail the chat message if Telegram fails
         }
     }
 }

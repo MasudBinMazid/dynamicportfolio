@@ -175,6 +175,74 @@
     </div>
   </div>
 
+  <!-- Telegram Integration Section -->
+  <div class="telegram-status-section">
+    <div class="telegram-status-card">
+      <div class="telegram-header">
+        <div class="telegram-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z"></path>
+          </svg>
+        </div>
+        <div class="telegram-info">
+          <h3>Telegram Notifications</h3>
+          <p>Get chat messages directly on your phone via Telegram</p>
+        </div>
+        <div class="telegram-status-badge">
+          @if($stats['telegram_enabled'] && $stats['telegram_configured'])
+            <span class="status-active">📱 Active</span>
+          @elseif($stats['telegram_enabled'] && !$stats['telegram_configured'])
+            <span class="status-warning">⚠️ Setup Required</span>
+          @else
+            <span class="status-inactive">🔕 Disabled</span>
+          @endif
+        </div>
+      </div>
+      
+      <div class="telegram-details">
+        <div class="detail-item">
+          <span class="detail-label">Notifications:</span>
+          <span class="detail-value">{{ $stats['telegram_enabled'] ? 'Enabled' : 'Disabled' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Bot Token:</span>
+          <span class="detail-value">{{ config('telegram.bot_token') ? 'Configured' : 'Not Set' }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Chat ID:</span>
+          <span class="detail-value">{{ config('telegram.chat_id') ? config('telegram.chat_id') : 'Not Set' }}</span>
+        </div>
+      </div>
+      
+      @if(!$stats['telegram_enabled'] || !$stats['telegram_configured'])
+        <div class="telegram-setup-info">
+          <h4>Setup Instructions:</h4>
+          <ol>
+            <li>Create a new bot by messaging <a href="https://t.me/BotFather" target="_blank">@BotFather</a> on Telegram</li>
+            <li>Get your bot token from BotFather</li>
+            <li>Add <code>TELEGRAM_BOT_TOKEN=your-bot-token</code> to your .env file</li>
+            <li>Start a chat with your bot and get your chat ID</li>
+            <li>Add <code>TELEGRAM_CHAT_ID=your-chat-id</code> to your .env file</li>
+            <li>Set <code>TELEGRAM_NOTIFY_NEW_MESSAGES=true</code> in your .env file</li>
+            <li>Run <code>php artisan telegram:setup --test</code> to verify setup</li>
+          </ol>
+        </div>
+      @endif
+      
+      @if($stats['telegram_configured'])
+        <div class="telegram-actions">
+          <a href="{{ url('/api/telegram/test-bot') }}" class="btn-test" target="_blank">🤖 Test Bot</a>
+          <a href="{{ url('/api/telegram/setup-webhook') }}" class="btn-webhook" target="_blank">🔗 Setup Webhook</a>
+          <a href="{{ route('admin.telegram.setup') }}" class="btn-setup">⚙️ Setup Guide</a>
+        </div>
+      @else
+        <div class="telegram-actions">
+          <a href="{{ route('admin.telegram.setup') }}" class="btn-setup-primary">🚀 Setup Telegram Bot</a>
+        </div>
+      @endif
+    </div>
+  </div>
+
   @if($stats['messages'] > 0)
     <div class="recent-activity">
       <div class="activity-card">
@@ -435,6 +503,193 @@
     
     .ai-details {
       grid-template-columns: 1fr;
+    }
+  }
+
+  /* Telegram Status Section Styles */
+  .telegram-status-section {
+    margin-bottom: 32px;
+  }
+
+  .telegram-status-card {
+    background: var(--card);
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+
+  .telegram-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .telegram-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #0088cc, #229ed9);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+  }
+
+  .telegram-icon svg {
+    color: white;
+  }
+
+  .telegram-info {
+    flex: 1;
+  }
+
+  .telegram-info h3 {
+    margin: 0 0 4px 0;
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .telegram-info p {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 14px;
+  }
+
+  .telegram-status-badge {
+    margin-left: auto;
+  }
+
+  .telegram-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .telegram-setup-info {
+    background: rgba(0, 136, 204, 0.05);
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid rgba(0, 136, 204, 0.2);
+  }
+
+  .telegram-setup-info h4 {
+    margin: 0 0 12px 0;
+    color: #0088cc;
+    font-size: 14px;
+  }
+
+  .telegram-setup-info ol {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.5;
+  }
+
+  .telegram-setup-info li {
+    margin-bottom: 8px;
+  }
+
+  .telegram-setup-info code {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+  }
+
+  .telegram-setup-info a {
+    color: #0088cc;
+    text-decoration: none;
+  }
+
+  .telegram-setup-info a:hover {
+    text-decoration: underline;
+  }
+
+  .telegram-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .btn-test, .btn-webhook {
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .btn-test {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--success);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+  }
+
+  .btn-test:hover {
+    background: rgba(34, 197, 94, 0.2);
+  }
+
+  .btn-webhook {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--info);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+
+  .btn-webhook:hover {
+    background: rgba(59, 130, 246, 0.2);
+  }
+
+  .btn-setup {
+    background: rgba(107, 114, 128, 0.1);
+    color: var(--text);
+    border: 1px solid rgba(107, 114, 128, 0.2);
+  }
+
+  .btn-setup:hover {
+    background: rgba(107, 114, 128, 0.2);
+  }
+
+  .btn-setup-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+
+  .btn-setup-primary:hover {
+    transform: translateY(-2px);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .telegram-header {
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+    }
+    
+    .telegram-status-badge {
+      margin-left: 0;
+      align-self: flex-start;
+    }
+    
+    .telegram-details {
+      grid-template-columns: 1fr;
+    }
+    
+    .telegram-actions {
+      flex-direction: column;
     }
   }
 </style>

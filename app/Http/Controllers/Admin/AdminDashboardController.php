@@ -19,6 +19,8 @@ class AdminDashboardController extends Controller
             'unread_chats' => ChatMessage::where('sender_type', 'visitor')->where('is_read', false)->count(),
             'ai_enabled' => config('chat.ai_enabled'),
             'ai_configured' => config('services.openai.api_key') ? true : false,
+            'telegram_enabled' => config('telegram.notify_new_messages'),
+            'telegram_configured' => config('telegram.bot_token') && config('telegram.chat_id') ? true : false,
         ];
         return view('admin.dashboard', compact('stats'));
     }
