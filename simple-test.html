@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Image Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-box { border: 2px solid #ddd; margin: 15px; padding: 15px; }
+        .success { border-color: #4CAF50; background: #f1f8e9; }
+        .error { border-color: #f44336; background: #ffebee; }
+        img { max-width: 400px; margin: 10px; }
+        .status { font-weight: bold; margin: 10px 0; }
+    </style>
+    <script>
+        function testImage(img, method, testBox) {
+            img.onload = function() {
+                testBox.className = 'test-box success';
+                testBox.querySelector('.status').innerHTML = '✅ ' + method + ' WORKS!';
+                testBox.querySelector('.status').style.color = '#4CAF50';
+                
+                // Show success message
+                document.getElementById('result').innerHTML = 
+                    '<div style="background: #d4edda; color: #155724; padding: 20px; border-radius: 5px; margin: 20px 0;">' +
+                    '<h2>🎉 SUCCESS!</h2>' +
+                    '<p><strong>' + method + ' is working!</strong></p>' +
+                    '<p>Your Laravel project should now display images correctly.</p>' +
+                    '<p><strong>Next steps:</strong></p>' +
+                    '<ul>' +
+                    '<li>Check your projects page: <a href="/projects">/projects</a></li>' +
+                    '<li>Upload the updated files</li>' +
+                    '<li>Clean up debug files</li>' +
+                    '</ul>' +
+                    '</div>';
+            };
+            img.onerror = function() {
+                testBox.className = 'test-box error';
+                testBox.querySelector('.status').innerHTML = '❌ ' + method + ' failed';
+                testBox.querySelector('.status').style.color = '#f44336';
+            };
+        }
+    </script>
+</head>
+<body>
+    <h1>Simple Image Test</h1>
+    <p><strong>Testing the bulletproof image server method</strong></p>
+    
+    <!-- Test the bulletproof image server -->
+    <div class="test-box" id="bulletproof-test">
+        <h3>🛡️ Bulletproof Image Server</h3>
+        <div class="status">Testing...</div>
+        <p><strong>URL:</strong> /img.php?f=FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg</p>
+        <img onload="testImage(this, 'Bulletproof Server', document.getElementById('bulletproof-test'))" 
+             onerror="testImage(this, 'Bulletproof Server', document.getElementById('bulletproof-test'))"
+             src="/img.php?f=FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg">
+    </div>
+
+    <!-- Test direct access -->
+    <div class="test-box" id="direct-test">
+        <h3>📁 Direct Images Directory</h3>
+        <div class="status">Testing...</div>
+        <p><strong>URL:</strong> /images/projects/FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg</p>
+        <img onload="testImage(this, 'Direct Images', document.getElementById('direct-test'))" 
+             onerror="testImage(this, 'Direct Images', document.getElementById('direct-test'))"
+             src="/images/projects/FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg">
+    </div>
+
+    <!-- Test storage -->
+    <div class="test-box" id="storage-test">
+        <h3>📦 Storage Directory</h3>
+        <div class="status">Testing...</div>
+        <p><strong>URL:</strong> /storage/projects/FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg</p>
+        <img onload="testImage(this, 'Storage Directory', document.getElementById('storage-test'))" 
+             onerror="testImage(this, 'Storage Directory', document.getElementById('storage-test'))"
+             src="/storage/projects/FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg">
+    </div>
+
+    <!-- Manual test links -->
+    <div style="background: #f9f9f9; padding: 15px; margin: 15px 0; border-radius: 5px;">
+        <h3>🔗 Manual Test Links</h3>
+        <p>Click these links to test manually:</p>
+        <ul>
+            <li><a href="/img.php?f=FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg" target="_blank">Bulletproof Server</a></li>
+            <li><a href="/images/projects/FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg" target="_blank">Direct Images</a></li>
+            <li><a href="/storage/projects/FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg" target="_blank">Storage Directory</a></li>
+        </ul>
+    </div>
+
+    <!-- Result area -->
+    <div id="result">
+        <div style="background: #fff3e0; color: #e65100; padding: 15px; border-radius: 5px; margin: 15px 0;">
+            <h3>⏳ Testing in progress...</h3>
+            <p>If all methods fail, there may be a server configuration issue that requires hosting provider assistance.</p>
+        </div>
+    </div>
+</body>
+</html>

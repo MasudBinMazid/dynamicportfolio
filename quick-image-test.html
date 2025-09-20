@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🔍 Quick Image Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .test-box { background: white; padding: 20px; margin: 15px 0; border-radius: 8px; border: 2px solid #ddd; }
+        .success { border-color: #4CAF50; background: #f1f8e9; }
+        .error { border-color: #f44336; background: #ffebee; }
+        img { max-width: 200px; margin: 10px; border: 1px solid #ddd; }
+        .result { font-weight: bold; margin: 10px 0; }
+    </style>
+    <script>
+        function testImage(img, resultDiv, method) {
+            img.onload = function() {
+                img.parentElement.className = 'test-box success';
+                resultDiv.innerHTML = '✅ ' + method + ' WORKS!';
+                resultDiv.style.color = '#4CAF50';
+            };
+            img.onerror = function() {
+                img.parentElement.className = 'test-box error';
+                resultDiv.innerHTML = '❌ ' + method + ' FAILED';
+                resultDiv.style.color = '#f44336';
+                img.style.display = 'none';
+            };
+        }
+    </script>
+</head>
+<body>
+    <h1>🔍 Quick Image Test</h1>
+    <p><strong>Testing Time:</strong> <span id="time"></span></p>
+    
+    <!-- Test 1: Image Viewer -->
+    <div class="test-box" id="test1">
+        <h3>Test 1: Image Viewer Script</h3>
+        <div class="result" id="result1">Testing...</div>
+        <p><strong>URL:</strong> /image-view.php?img=FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg</p>
+        <img src="/image-view.php?img=FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg" 
+             onload="testImage(this, document.getElementById('result1'), 'Image Viewer')"
+             onerror="testImage(this, document.getElementById('result1'), 'Image Viewer')">
+    </div>
+    
+    <!-- Test 2: Direct Storage -->
+    <div class="test-box" id="test2">
+        <h3>Test 2: Direct Storage Access</h3>
+        <div class="result" id="result2">Testing...</div>
+        <p><strong>URL:</strong> /storage/projects/FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg</p>
+        <img src="/storage/projects/FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg"
+             onload="testImage(this, document.getElementById('result2'), 'Direct Storage')"
+             onerror="testImage(this, document.getElementById('result2'), 'Direct Storage')">
+    </div>
+    
+    <!-- Test 3: Direct Images -->
+    <div class="test-box" id="test3">
+        <h3>Test 3: Direct Images Access</h3>
+        <div class="result" id="result3">Testing...</div>
+        <p><strong>URL:</strong> /images/projects/FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg</p>
+        <img src="/images/projects/FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg"
+             onload="testImage(this, document.getElementById('result3'), 'Direct Images')"
+             onerror="testImage(this, document.getElementById('result3'), 'Direct Images')">
+    </div>
+    
+    <!-- Manual Links -->
+    <div style="background: white; padding: 20px; margin: 15px 0; border-radius: 8px;">
+        <h3>🔗 Manual Test Links</h3>
+        <p>Click to test in new tabs:</p>
+        <ul>
+            <li><a href="/image-view.php?img=FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg" target="_blank">Image Viewer</a></li>
+            <li><a href="/storage/projects/FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg" target="_blank">Direct Storage</a></li>
+            <li><a href="/images/projects/FeOTN1JlmuSBSzvRPi2CYE36QXNgZ82O3IZLkNEO.jpg" target="_blank">Direct Images</a></li>
+            <li><a href="/complete-diagnosis.php" target="_blank">Complete Diagnosis</a></li>
+        </ul>
+    </div>
+    
+    <!-- Next Steps -->
+    <div style="background: #e3f2fd; padding: 20px; margin: 15px 0; border-radius: 8px;">
+        <h3>🚀 Based on Results:</h3>
+        <p><strong>If Image Viewer works:</strong> Upload the Project-FIXED.php to app/Models/Project.php</p>
+        <p><strong>If Direct Storage/Images work:</strong> Your hosting allows direct access - use those URLs</p>
+        <p><strong>If nothing works:</strong> Check if files are uploaded to the right directories</p>
+        
+        <h4>Files to Upload:</h4>
+        <ul>
+            <li>✅ <strong>image-view.php</strong> → Server root</li>
+            <li>✅ <strong>Project-FIXED.php</strong> → Rename to Project.php in app/Models/</li>
+            <li>✅ <strong>complete-diagnosis.php</strong> → For detailed analysis</li>
+        </ul>
+    </div>
+
+    <script>
+        document.getElementById('time').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>

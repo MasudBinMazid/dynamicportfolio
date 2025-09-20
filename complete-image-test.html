@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Complete Image Testing - All Methods</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .test-box { border: 2px solid #ddd; margin: 15px; padding: 15px; border-radius: 5px; }
+        .success { border-color: #4CAF50; background: #f1f8e9; }
+        .error { border-color: #f44336; background: #ffebee; }
+        .working { border-color: #2196F3; background: #e3f2fd; }
+        img { max-width: 200px; margin: 10px; border: 1px solid #ddd; }
+        .status { font-weight: bold; margin: 10px 0; font-size: 16px; }
+        .method { background: #f9f9f9; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .url-test { margin: 5px 0; font-family: monospace; font-size: 12px; }
+        .summary { background: #fff3e0; padding: 20px; margin: 20px 0; border-radius: 8px; border: 2px solid #ff9800; }
+    </style>
+    <script>
+        let workingMethods = [];
+        let failedMethods = [];
+        
+        function testImage(img, method, testBox) {
+            img.onload = function() {
+                testBox.className = 'test-box success';
+                testBox.querySelector('.status').innerHTML = '✅ ' + method + ' WORKS!';
+                testBox.querySelector('.status').style.color = '#4CAF50';
+                workingMethods.push(method);
+                updateSummary();
+            };
+            img.onerror = function() {
+                testBox.className = 'test-box error';
+                testBox.querySelector('.status').innerHTML = '❌ ' + method + ' failed';
+                testBox.querySelector('.status').style.color = '#f44336';
+                failedMethods.push(method);
+                updateSummary();
+            };
+        }
+        
+        function updateSummary() {
+            const summary = document.getElementById('summary');
+            if (summary) {
+                let html = '<h3>🔍 Test Results Summary</h3>';
+                
+                if (workingMethods.length > 0) {
+                    html += '<div style="color: #4CAF50; margin: 10px 0;"><strong>✅ WORKING METHODS:</strong><ul>';
+                    workingMethods.forEach(method => {
+                        html += '<li>' + method + '</li>';
+                    });
+                    html += '</ul></div>';
+                }
+                
+                if (failedMethods.length > 0) {
+                    html += '<div style="color: #f44336; margin: 10px 0;"><strong>❌ FAILED METHODS:</strong><ul>';
+                    failedMethods.forEach(method => {
+                        html += '<li>' + method + '</li>';
+                    });
+                    html += '</ul></div>';
+                }
+                
+                if (workingMethods.length > 0) {
+                    html += '<div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 5px; margin: 15px 0;">';
+                    html += '<h4>🎉 SUCCESS! Found working method(s)</h4>';
+                    html += '<p>Your Laravel project should now display images correctly using the working method(s) above.</p>';
+                    html += '</div>';
+                } else if (failedMethods.length >= 4) {
+                    html += '<div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin: 15px 0;">';
+                    html += '<h4>⚠️ All direct methods failed</h4>';
+                    html += '<p>This indicates severe hosting restrictions. Contact your hosting provider or consider switching hosts.</p>';
+                    html += '</div>';
+                }
+                
+                summary.innerHTML = html;
+            }
+        }
+        
+        function testDeliveryScript(filename) {
+            const testUrl = '/image-delivery.php?file=' + filename;
+            const img = new Image();
+            const deliveryBox = document.getElementById('delivery-test');
+            
+            img.onload = function() {
+                deliveryBox.className = 'test-box success';
+                deliveryBox.querySelector('.status').innerHTML = '✅ Image Delivery Script WORKS!';
+                deliveryBox.querySelector('.delivery-img').src = testUrl;
+                deliveryBox.querySelector('.delivery-img').style.display = 'block';
+                workingMethods.push('Image Delivery Script');
+                updateSummary();
+            };
+            
+            img.onerror = function() {
+                deliveryBox.className = 'test-box error';
+                deliveryBox.querySelector('.status').innerHTML = '❌ Image Delivery Script failed';
+                failedMethods.push('Image Delivery Script');
+                updateSummary();
+            };
+            
+            img.src = testUrl;
+        }
+        
+        function testSimpleScript(filename) {
+            const testUrl = '/image.php?file=' + filename;
+            const img = new Image();
+            const simpleBox = document.getElementById('simple-test');
+            
+            img.onload = function() {
+                simpleBox.className = 'test-box success';
+                simpleBox.querySelector('.status').innerHTML = '✅ Simple Image Script WORKS!';
+                simpleBox.querySelector('.simple-img').src = testUrl;
+                simpleBox.querySelector('.simple-img').style.display = 'block';
+                workingMethods.push('Simple Image Script');
+                updateSummary();
+            };
+            
+            img.onerror = function() {
+                simpleBox.className = 'test-box error';
+                simpleBox.querySelector('.status').innerHTML = '❌ Simple Image Script failed';
+                failedMethods.push('Simple Image Script');
+                updateSummary();
+            };
+            
+            img.src = testUrl;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Complete Image Testing - All Methods</h1>
+        <p><strong>Test Time:</strong> <?php echo date('Y-m-d H:i:s'); ?></p>
+        <p><strong>Purpose:</strong> Test every possible way to serve images on your hosting environment</p>
+        
+        <div class="summary" id="summary">
+            <h3>🔍 Testing in progress...</h3>
+            <p>Please wait while all methods are tested.</p>
+        </div>
+
+        <?php
+        // Find test images
+        $testImages = [];
+        
+        // Check all possible locations
+        $locations = [
+            __DIR__ . '/public/storage/projects/',
+            __DIR__ . '/storage/app/public/projects/',
+            __DIR__ . '/public/uploads/projects/'
+        ];
+        
+        foreach ($locations as $location) {
+            if (is_dir($location)) {
+                $files = glob($location . '*.{jpg,jpeg,png,gif,webp,bmp}', GLOB_BRACE);
+                foreach ($files as $file) {
+                    $filename = basename($file);
+                    if (!in_array($filename, $testImages)) {
+                        $testImages[] = $filename;
+                    }
+                }
+            }
+        }
+        
+        if (empty($testImages)) {
+            echo "<div style='color: red; padding: 20px;'>";
+            echo "<h3>❌ No images found!</h3>";
+            echo "<p>No test images were found in any storage location.</p>";
+            echo "</div>";
+        } else {
+            $testImage = $testImages[0]; // Use first image for testing
+            echo "<div style='background: #e3f2fd; padding: 15px; margin: 15px 0; border-radius: 5px;'>";
+            echo "<h3>🖼️ Testing with: $testImage</h3>";
+            echo "<p>Found " . count($testImages) . " total images. Testing all methods with: <strong>$testImage</strong></p>";
+            echo "</div>";
+        ?>
+        
+        <!-- Method 1: Direct Storage -->
+        <div class="test-box" id="storage-test">
+            <h3>Method 1: Direct Storage Access</h3>
+            <div class="status">Testing...</div>
+            <div class="method">
+                <strong>URL:</strong> /storage/projects/<?php echo $testImage; ?><br>
+                <strong>Method:</strong> Direct file access through web server<br>
+                <strong>Status:</strong> Expected to fail (confirmed by previous tests)
+            </div>
+            <img id="storage-img" onload="testImage(this, 'Direct Storage', document.getElementById('storage-test'))" 
+                 onerror="testImage(this, 'Direct Storage', document.getElementById('storage-test'))"
+                 src="/storage/projects/<?php echo $testImage; ?>" style="display: none;">
+        </div>
+
+        <!-- Method 2: Uploads Directory -->
+        <div class="test-box" id="uploads-test">
+            <h3>Method 2: Uploads Directory</h3>
+            <div class="status">Testing...</div>
+            <div class="method">
+                <strong>URL:</strong> /uploads/projects/<?php echo $testImage; ?><br>
+                <strong>Method:</strong> Direct file access to uploads folder<br>
+                <strong>Status:</strong> May work if uploads directory is accessible
+            </div>
+            <img id="uploads-img" onload="testImage(this, 'Uploads Directory', document.getElementById('uploads-test'))" 
+                 onerror="testImage(this, 'Uploads Directory', document.getElementById('uploads-test'))"
+                 src="/uploads/projects/<?php echo $testImage; ?>" style="display: none;">
+        </div>
+
+        <!-- Method 3: Image Delivery Script -->
+        <div class="test-box" id="delivery-test">
+            <h3>Method 3: Image Delivery Script</h3>
+            <div class="status">Testing...</div>
+            <div class="method">
+                <strong>URL:</strong> /image-delivery.php?file=<?php echo $testImage; ?><br>
+                <strong>Method:</strong> PHP script that reads and outputs image files<br>
+                <strong>Status:</strong> Should work if PHP can read files
+            </div>
+            <img class="delivery-img" style="display: none; max-width: 200px;">
+        </div>
+
+        <!-- Method 4: Simple Image Script -->
+        <div class="test-box" id="simple-test">
+            <h3>Method 4: Simple Image Script</h3>
+            <div class="status">Testing...</div>
+            <div class="method">
+                <strong>URL:</strong> /image.php?file=<?php echo $testImage; ?><br>
+                <strong>Method:</strong> Simplified PHP image delivery<br>
+                <strong>Status:</strong> Backup method with multiple file location checks
+            </div>
+            <img class="simple-img" style="display: none; max-width: 200px;">
+        </div>
+
+        <!-- Debug Information -->
+        <div class="test-box working">
+            <h3>🔧 Debug Information</h3>
+            <div class="method">
+                <strong>Server Info:</strong><br>
+                • PHP Version: <?php echo PHP_VERSION; ?><br>
+                • Server Software: <?php echo $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown'; ?><br>
+                • Document Root: <?php echo $_SERVER['DOCUMENT_ROOT'] ?? 'Unknown'; ?><br>
+                • Current Script: <?php echo $_SERVER['SCRIPT_NAME'] ?? 'Unknown'; ?><br>
+                <br>
+                <strong>File Locations:</strong><br>
+                <?php
+                foreach ($locations as $location) {
+                    $exists = is_dir($location) ? 'EXISTS' : 'NOT FOUND';
+                    $count = is_dir($location) ? count(glob($location . '*')) : 0;
+                    echo "• $location ($exists, $count files)<br>";
+                }
+                ?>
+                <br>
+                <strong>Available Images:</strong><br>
+                <?php
+                foreach (array_slice($testImages, 0, 5) as $img) {
+                    echo "• $img<br>";
+                }
+                if (count($testImages) > 5) {
+                    echo "• ... and " . (count($testImages) - 5) . " more<br>";
+                }
+                ?>
+            </div>
+        </div>
+
+        <!-- Manual Tests -->
+        <div class="test-box working">
+            <h3>🔗 Manual Test Links</h3>
+            <p>Click these links to manually test each method:</p>
+            <div class="url-test">
+                <strong>Direct Storage:</strong> <a href="/storage/projects/<?php echo $testImage; ?>" target="_blank">/storage/projects/<?php echo $testImage; ?></a><br>
+                <strong>Uploads:</strong> <a href="/uploads/projects/<?php echo $testImage; ?>" target="_blank">/uploads/projects/<?php echo $testImage; ?></a><br>
+                <strong>Delivery Script:</strong> <a href="/image-delivery.php?file=<?php echo $testImage; ?>" target="_blank">/image-delivery.php?file=<?php echo $testImage; ?></a><br>
+                <strong>Simple Script:</strong> <a href="/image.php?file=<?php echo $testImage; ?>" target="_blank">/image.php?file=<?php echo $testImage; ?></a><br>
+            </div>
+        </div>
+
+        <script>
+            // Start automatic tests
+            setTimeout(() => {
+                document.getElementById('storage-img').style.display = 'block';
+            }, 500);
+            
+            setTimeout(() => {
+                document.getElementById('uploads-img').style.display = 'block';
+            }, 1000);
+            
+            setTimeout(() => {
+                testDeliveryScript('<?php echo $testImage; ?>');
+            }, 1500);
+            
+            setTimeout(() => {
+                testSimpleScript('<?php echo $testImage; ?>');
+            }, 2000);
+        </script>
+
+        <?php } ?>
+    </div>
+</body>
+</html>
